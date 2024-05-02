@@ -10,44 +10,35 @@ Computer vision is a field within artificial intelligence that enables computers
 
 # The Magic behind WillyVison
 
-## Bounding Box Prediction
 
-Each grid cell in YOLO predicts multiple bounding boxes. Each bounding box prediction consists of five elements:
+### Bounding Box Prediction: 
 
-- **bx, by**: The center coordinates of the box relative to the bounds of the grid cell.
-- **bw, bh**: The width and height of the box relative to the whole image.
-- **Confidence score**: The likelihood that the box contains a specific object and how accurate it thinks the box is.
+- Each cell predicts multiple bounding boxes for objects along with their confidence scores. The confidence score reflects the accuracy of the bounding box and whether the box contains a specific object.
 
-These values are predicted using the following formulas:
-
-- \( bx = \sigma(t_x) + c_x \)
-- \( by = \sigma(t_y) + c_y \)
-- \( bw = p_w e^{t_w} \)
-- \( bh = p_h e^{t_h} \)
-- \( \text{Confidence} = \sigma(t_o) \)
-
-Here, \( t_x, t_y, t_w, t_h, t_o \) are the outputs from the model, \( \sigma \) is the sigmoid function that normalizes the output to be between 0 and 1, making it a probability. \( c_x, c_y \) are the top-left coordinates of the grid cell, and \( p_w, p_h \) are the width and height of the anchor box.
-
-## Class Prediction
-
-The class probabilities are calculated for each bounding box using a softmax function, which is a generalized logistic function used for multiclass classification. If there are \( C \) classes, the softmax score for the \( i \)-th class given by a bounding box is calculated as:
-
-\[ P(\text{class}_i | \text{object}) = \frac{e^{s_i}}{\sum_{j=1}^C e^{s_j}} \]
-
-where \( s_i \) are the scores predicted by the model for each class.
-
-## Non-Max Suppression (NMS)
-
-After detecting multiple boxes, YOLO uses non-max suppression to eliminate redundant boxes by keeping only the best ones. This involves two key steps:
-
-1. **Discarding all boxes with confidence less than a certain threshold**:
-   - if \( \text{Confidence} < \text{threshold} \), discard the box.
-
-2. **For remaining boxes, sort by confidence and compare using IoU (Intersection over Union)**:
-   \[ \text{IoU}(A, B) = \frac{\text{area of overlap between A and B}}{\text{area of union between A and B}} \]
+![Equation for Grid Devision](https://blog.paperspace.com/content/images/2018/04/Screen-Shot-2018-04-10-at-3.18.08-PM.png)
 
 
-If IoU is greater than a specified threshold, the box with the lower confidence score is discarded. This is based on the idea that boxes with high overlap are likely covering the same object.
+![Equation for Grid Devision](https://pub.mdpi-res.com/applsci/applsci-12-07622/article_deploy/html/images/applsci-12-07622-g009.png?1659317028)
+
+### Grid Division: 
+
+- YOLO divides an image into a grid (e.g., 13x13 cells). Each grid cell is responsible for detecting objects that fall within its boundaries.
+
+![Equation for Grid Devision](https://pylessons.com/media/Tutorials/YOLO-tutorials/YOLOv3-TF2-mnist/loss_function.png)
+
+![Equation for Grid Devision](https://miro.medium.com/v2/resize:fit:1400/1*fahR8jDZxKqArfYRPCnDjw.png)
+
+### Class Prediction: 
+
+- Simultaneously, each cell predicts the class probabilities for each bounding box. This step involves using softmax functions that calculate the probability of the object belonging to a specific class.
+
+### Non-max Suppression: 
+
+- To ensure the model does not have overlapping bounding boxes for the same object, YOLO uses a technique called non-max suppression. This step filters out bounding boxes based on the confidence score and Intersection over Union (IoU) metric, keeping only the highest scoring boxes.
+
+### Combining Results: 
+
+- The bounding boxes and class predictions are combined to create the final output, which includes the positions, dimensions, and class labels of all detected objects.
 
 ## Detail of the Trainings
 
