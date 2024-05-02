@@ -1,0 +1,12 @@
+path: /Users/adamcarbajo/erz_pp/Willy_Vision_v1/dta_set # dataset root dir
+train: images/  # train images (relative to 'path')
+val: images/  # val images (relative to 'path')
+
+# Classes
+names:
+  0: FG-HEA-0321
+  1: FG-CHO-0016
+  2: FG-TRU-0749
+  3: FG-TRU-0761
+  4: FG-DAT-0233
+  5: FG-TRU-0767
