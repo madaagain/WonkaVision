@@ -11,11 +11,12 @@ Computer vision is a field within artificial intelligence that enables computers
 # The Magic behind WillyVison
 
 ## Bounding Box Prediction
+
 Each grid cell in YOLO predicts multiple bounding boxes. Each bounding box prediction consists of five elements:
 
-- \( bx, by \): The center coordinates of the box relative to the bounds of the grid cell.
-- \( bw, bh \): The width and height of the box relative to the whole image.
-- Confidence score: The likelihood that the box contains a specific object and how accurate it thinks the box is.
+- **bx, by**: The center coordinates of the box relative to the bounds of the grid cell.
+- **bw, bh**: The width and height of the box relative to the whole image.
+- **Confidence score**: The likelihood that the box contains a specific object and how accurate it thinks the box is.
 
 These values are predicted using the following formulas:
 
@@ -40,10 +41,11 @@ where \( s_i \) are the scores predicted by the model for each class.
 After detecting multiple boxes, YOLO uses non-max suppression to eliminate redundant boxes by keeping only the best ones. This involves two key steps:
 
 1. **Discarding all boxes with confidence less than a certain threshold**:
-   - if \(\text{Confidence} < \text{threshold}\), discard the box.
+   - if \( \text{Confidence} < \text{threshold} \), discard the box.
 
 2. **For remaining boxes, sort by confidence and compare using IoU (Intersection over Union)**:
    \[ \text{IoU}(A, B) = \frac{\text{area of overlap between A and B}}{\text{area of union between A and B}} \]
+
 
 If IoU is greater than a specified threshold, the box with the lower confidence score is discarded. This is based on the idea that boxes with high overlap are likely covering the same object.
 
